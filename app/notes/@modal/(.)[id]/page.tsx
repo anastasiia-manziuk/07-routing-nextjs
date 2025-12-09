@@ -1,0 +1,21 @@
+
+import NotePreview from '@/components/NotePreview/NotePreview';
+import { fetchNoteById } from '@/lib/api';
+
+interface NoteProp {
+  params: Promise<{ id: string }>;
+}
+
+export default async function InterceptedNote({ params }: NoteProp) {
+  const { id } = await params;
+
+
+  const note = await fetchNoteById(id);
+
+  if (!note) {
+    return <div>Note not found</div>;
+  }
+
+
+  return <NotePreview note={note} />;
+}

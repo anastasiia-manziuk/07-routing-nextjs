@@ -9,13 +9,22 @@ export interface NotesResponse {
 const BASE_URL = 'https://notehub-public.goit.study/api';
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
-export const fetchNotes = async (page = 1, search = '', perPage = 12): Promise<NotesResponse> => {
+export const fetchNotes = async (
+  page = 1,
+  search = '',
+  perPage = 12,
+  tag?: string
+): Promise<NotesResponse> => {
+  const params: Record<string, unknown> = { page, search, perPage };
+  if (tag) params.tag = tag;
+
   const res = await axios.get<NotesResponse>(`${BASE_URL}/notes`, {
-    params: { page, search, perPage },
+    params,
     headers: {
       Authorization: `Bearer ${TOKEN}`,
     },
   });
+
   return res.data;
 };
 

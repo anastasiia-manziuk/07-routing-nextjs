@@ -15,16 +15,24 @@ import NoteForm from '@/components/NoteForm/NoteForm';
 import Pagination from '@/components/Pagination/Pagination';
 import type { NotesResponse } from '@/lib/api';
 
-type Props = {
+export type NotesClientProps = {
   dehydratedState?: DehydratedState;
+  tag?: string;
+  initialPage?: number;
+  initialSearch?: string;
 };
 
-export default function NotesClient({ dehydratedState }: Props) {
-  const [search, setSearch] = useState('');
+export default function NotesClient({
+  dehydratedState,
+  tag,
+  initialPage = 1,
+  initialSearch = '',
+}: NotesClientProps) {
+  const [search, setSearch] = useState(initialSearch);
   const [debouncedSearch] = useDebounce(search, 300);
 
   const createNoteModal = useModalControl();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(initialPage);
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
@@ -32,8 +40,8 @@ export default function NotesClient({ dehydratedState }: Props) {
   };
 
   const { data, isLoading } = useQuery<NotesResponse>({
-    queryKey: ['notes', debouncedSearch, page],
-    queryFn: () => fetchNotes(page, debouncedSearch, 12),
+    queryKey: ['notes', tag ?? 'all', debouncedSearch, page],
+    queryFn: () => fetchNotes(page, debouncedSearch, 12, tag),
     placeholderData: prev => prev,
   });
 
@@ -69,3 +77,4 @@ export default function NotesClient({ dehydratedState }: Props) {
     </HydrationBoundary>
   );
 }
+
