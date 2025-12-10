@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './LayoutNotes.module.css';
 
-import SidebarNotes from './filter/@sidebar/default';
+import SidebarNotes from './@sidebar/default';
 
 export default function NotesLayout({ children,modal }: { children: React.ReactNode ,
   modal?: React.ReactNode;
