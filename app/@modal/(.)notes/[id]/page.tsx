@@ -11,7 +11,6 @@ export default async function InterceptedNote({ params }: NoteProp) {
 
   const queryClient = new QueryClient();
 
-
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
