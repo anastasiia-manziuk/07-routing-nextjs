@@ -2,9 +2,11 @@ import NotesClient from './Notes.client';
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
 import { fetchNotes } from '@/lib/api';
 
+type Params = Record<string, string | string[] | undefined>;
+
 interface Props {
-  params: Promise<{ slug?: string[] | string }>;
-  searchParams?: Promise<Record<string, string | string[] | undefined>> | Record<string, string | string[] | undefined>;
+  params: Promise<{ slug: string[] }>;
+  searchParams?: Params | Promise<Params>;
 }
 
 export default async function FilterPage({ params, searchParams }: Props) {
